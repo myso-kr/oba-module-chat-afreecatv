@@ -89,6 +89,10 @@ class Socket extends EventEmitter {
             this.on('connect', () => this.native.send(`LOGIN${meta.channel_info}::0::mweb_aos`));
 	        this.on('login', () => this.native.send(`JOIN${meta.chat_no}:${meta.fan_ticket}`));
 	        this.on('join', () => this.native.send(`CONNECTCENTER${meta.relay_ip}:${meta.relay_port}:${meta.broad_no}`));
+	        
+	        this.on('connect', () => this.module.emit('connect'));
+	        this.on('error', (e) => this.module.emit('error', e));
+	        this.on('close', () => this.module.emit('close'));
 	        this.on('message', (segments) => {
 	        	this.module.emit('message', {
                     module: this.module.defaults,
