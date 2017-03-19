@@ -102,5 +102,6 @@ class Socket extends EventEmitter {
 	}
 	disconnect() {
 		if(!this.native) return;
+		this.native.close();
 	}
 }
