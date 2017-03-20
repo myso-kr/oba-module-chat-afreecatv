@@ -102,7 +102,16 @@ class Socket extends EventEmitter {
                     timestamp: Date.now()
                 });
 	        });
-		});
+		})
+        .catch((e)=>{
+            if(this.native && this.native.close) {
+                this.native.close();
+            } else {
+                this.native = null;
+                this.module.emit('error', e);
+                this.module.emit('close');
+            }
+        });
 	}
 	disconnect() {
 		if(!this.native) return;
